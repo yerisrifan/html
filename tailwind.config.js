@@ -60,5 +60,7 @@ module.exports = {
       textColor: ["dark", "dark-hover"],
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };

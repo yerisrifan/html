@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../dist/output.css" rel="stylesheet" />
+</head>
+
+<body class="bg-slate-50 dark:bg-gray-900 text-slate-900 dark:text-white transition-colors duration-200">
+
+    <!-- Header & Navigation -->
+    <header class="fixed w-full z-[100]">
+        <!-- Top Navigation Bar -->
+        <div class="bg-white/95 dark:bg-gray-800/95 shadow-sm">
+            <nav class="container mx-auto px-4 py-4 max-w-6xl">
+                <div class="flex items-center justify-between">
+                    <!-- Logo -->
+                    <a href="/" class="flex items-center space-x-3 group">
+                        <svg class="w-8 h-8 text-primary-500 group-hover:text-primary-600 transition-colors"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13v8l6-4z" />
+                        </svg>
+                        <span
+                            class="text-2xl font-bold text-slate-800 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">DramaKu</span>
+                    </a>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex items-center space-x-4">
+                        <a href="/drama-list" class="nav-link">Drama List</a>
+                        <a href="/ongoing" class="nav-link">On-Going</a>
+                        <a href="/completed" class="nav-link">Completed</a>
+                        <a href="/schedule" class="nav-link">Schedule</a>
+
+                        <!-- Search Button -->
+                        <button id="searchBtn" class="nav-icon-btn" aria-label="Search">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+
+                        <!-- Dark Mode Toggle -->
+                        <button id="darkModeToggle" class="nav-icon-btn" aria-label="Toggle dark mode">
+                            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                            <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="md:hidden nav-icon-btn" id="mobileMenuBtn" aria-label="Open menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu -->
+                <div class="md:hidden hidden" id="mobileMenu">
+                    <div class="pt-4 pb-3 space-y-3">
+                        <a href="/drama-list" class="mobile-nav-link">Drama List</a>
+                        <a href="/ongoing" class="mobile-nav-link">On-Going</a>
+                        <a href="/completed" class="mobile-nav-link">Completed</a>
+                        <a href="/schedule" class="mobile-nav-link">Schedule</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Secondary Navigation Bar -->
+        <div class="bg-white/95 dark:bg-gray-800/95 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <!-- Desktop View -->
+                <div class="hidden md:flex items-center h-14">
+                    <!-- Left Side Navigation -->
+                    <div class="flex items-center space-x-2">
+                        <!-- Genre Dropdown -->
+                        <div class="relative group">
+                            <button id="genreDropdownBtn"
+                                class="flex items-center space-x-2 h-14 px-4 text-gray-700 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-400 font-medium transition-colors"
+                                aria-expanded="false">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                                <span>Genre</span>
+                                <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <!-- Genre Dropdown Menu -->
+                            <div id="genreDropdownMenu"
+                                class="absolute left-0 top-full mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 opacity-0 invisible transform scale-95 transition-all duration-200 ease-out backdrop-blur-sm"
+                                style="z-index: 1000;">
+                                <div class="p-4">
+                                    <!-- Featured Genres -->
+                                    <div class="mb-4">
+                                        <h3
+                                            class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                                            Featured</h3>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <a href="/genre/kdrama" class="featured-genre-item">
+                                                <div class="flex items-center space-x-3">
+                                                    <span
+                                                        class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary-500/10 dark:bg-primary-500/20 flex items-center justify-center">
+                                                        <svg class="w-4 h-4 text-primary-500" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                                        </svg>
+                                                    </span>
+                                                    <div>
+                                                        <span
+                                                            class="block font-medium text-gray-900 dark:text-white">K-Drama</span>
+                                                        <span class="text-xs text-gray-500 dark:text-gray-400">845
+                                                            titles</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <!-- Add more featured genres -->
+                                        </div>
+                                    </div>
+
+                                    <!-- All Genres -->
+                                    <div>
+                                        <h3
+                                            class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                                            All
+                                            Genres</h3>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <a href="/genre/romance" class="genre-item">
+                                                <span>Romance</span>
+                                                <span class="genre-count">258</span>
+                                            </a>
+                                            <!-- Add more genre items -->
+                                        </div>
+                                    </div>
+
+                                    <!-- View All Link -->
+                                    <div class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+                                        <a href="/genres"
+                                            class="flex items-center justify-center text-sm text-primary-500 hover:text-primary-600 font-medium group bg-primary-50 dark:bg-primary-500/10 rounded-lg py-2 px-4">
+                                            View All Genres
+                                            <svg class="w-4 h-4 ml-1.5 transition-transform duration-200 group-hover:translate-x-1"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Popular Link -->
+                        <a href="/popular" class="nav-link flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                            <span>Popular</span>
+                        </a>
+
+                        <!-- Year Dropdown -->
+                        <div class="relative group">
+                            <button class="nav-link flex items-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span>Year</span>
+                                <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Trending Link -->
+                        <a href="/trending" class="nav-link flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                            <span>Trending</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile View -->
+                <div class="md:hidden">
+                    <div class="flex items-center justify-between h-14">
+                        <!-- Genre Dropdown for Mobile -->
+                        <div class="relative md:hidden">
+                            <button id="mobileGenreBtn"
+                                class="flex items-center space-x-2 h-14 px-3 text-gray-700 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-400 font-medium transition-colors"
+                                aria-expanded="false">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                                <span>Genre</span>
+                                <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <!-- Mobile Genre Dropdown Menu -->
+                            <div id="mobileGenreMenu"
+                                class="absolute w-[400px] left-4 right-4 top-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 opacity-0 invisible transform scale-95 transition-all duration-200 ease-out backdrop-blur-sm"
+                                style="z-index: 1000;">
+                                <div class="p-4">
+                                    <!-- Search Genre (Mobile Only) -->
+                                    <div class="mb-4">
+                                        <div class="relative">
+                                            <input type="text" placeholder="Search genres..."
+                                                class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                                            <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <!-- Popular Genres -->
+                                    <div class="mb-4">
+                                        <h3
+                                            class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                                            Popular</h3>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <a href="/genre/kdrama" class="mobile-genre-item">
+                                                <div class="flex items-center space-x-3">
+                                                    <span
+                                                        class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary-500/10 dark:bg-primary-500/20 flex items-center justify-center">
+                                                        <svg class="w-4 h-4 text-primary-500" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                                        </svg>
+                                                    </span>
+                                                    <div>
+                                                        <span
+                                                            class="block font-medium text-gray-900 dark:text-white">K-Drama</span>
+                                                        <span class="text-xs text-gray-500">845</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <!-- Add more popular genres -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Browse All Link -->
+                                    <a href="/genres"
+                                        class="flex items-center justify-center space-x-2 p-3 bg-primary-500/10 dark:bg-primary-500/20 rounded-lg text-primary-500 font-medium">
+                                        <span>Browse All Genres</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Links for Mobile -->
+                        <div class="flex items-center space-x-2"> <!-- Reduced space -->
+                            <a href="/popular" class="mobile-nav-pill">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                                <span>Popular</span>
+                            </a>
+                            <a href="/trending" class="mobile-nav-pill">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                                <span>Trending</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-2xl mx-4 p-6 rounded-lg animate-fade-in">
+            <div class="flex items-center border-b dark:border-gray-700 pb-4">
+                <input type="text" placeholder="Cari drama..."
+                    class="w-full bg-transparent text-gray-900 dark:text-white focus:outline-none text-lg"
+                    aria-label="Search dramas" />
+                <button id="closeSearch"
+                    class="ml-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Trending Searches -->
+            <div class="mt-4">
+                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400">
+                    Trending Searches
+                </h3>
+                <div class="mt-2 flex flex-wrap gap-2">
+                    <span
+                        class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-300">Queen
+                        of Tears</span>
+                    <span
+                        class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-300">Wonderful
+                        World</span>
+                    <span
+                        class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-300">Kim
+                        Ji Won</span>
+                    <span
+                        class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-300">Doctor
+                        Slump</span>
+                </div>
+            </div>
+
+            <!-- Live Search Results -->
+            <div class="mt-4 space-y-4">
+                <div class="live-search-results hidden">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="pt-48 pb-16">
+        <!-- Article Content -->
+        <article class="mx-auto px-4 max-w-3xl">
+            <!-- Article Header -->
+            <header class="mb-12">
+                <div class="flex gap-2 mb-6">
+                    <span class="px-3 py-1 bg-primary-500/10 text-primary-500 text-sm rounded-full">News</span>
+                    <span
+                        class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm rounded-full">5
+                        min read</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-6">
+                    Queen of Tears Pecahkan Rekor Rating Drama Korea 2024
+                </h1>
+                <div class="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+                    <div class="flex items-center gap-2">
+                        <span class="font-medium text-gray-900 dark:text-white">John Doe</span>
+                        <span class="text-gray-400">Content Writer</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span>Mar 15, 2024</span>
+                        <span class="text-gray-300 dark:text-gray-600">•</span>
+                        <span>Updated 2h ago</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Featured Image -->
+            <figure class="mb-12">
+                <img src="https://placehold.co/1200x675" alt="Article Featured Image" class="w-full rounded-xl" />
+            </figure>
+
+            <!-- Article Body -->
+            <div class="prose prose-lg dark:prose-invert max-w-none">
+                <p class="lead text-xl text-gray-600 dark:text-gray-400 mb-8">
+                    Drama Korea Queen of Tears yang dibintangi Kim Soo Hyun dan Kim Ji Won berhasil memecahkan rekor
+                    rating tertinggi untuk drama Korea tahun 2024.
+                </p>
+
+                <h2>Pencapaian Luar Biasa</h2>
+                <p>
+                    Episode terbaru Queen of Tears berhasil mencapai rating nasional sebesar 20,5%, mengalahkan rekor
+                    sebelumnya yang dipegang oleh drama lain tahun ini.
+                </p>
+
+                <blockquote>
+                    "Kami sangat berterima kasih atas dukungan yang luar biasa dari penonton. Ini adalah hasil kerja
+                    keras seluruh tim produksi." - Kim Soo Hyun
+                </blockquote>
+
+                <!-- More content -->
+            </div>
+
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-2 mt-12 pt-12 border-t border-gray-200 dark:border-gray-700">
+                <a href="#"
+                    class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    Queen of Tears
+                </a>
+                <a href="#"
+                    class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    Kim Soo Hyun
+                </a>
+                <a href="#"
+                    class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    Kim Ji Won
+                </a>
+            </div>
+
+            <!-- Share Section -->
+            <div class="flex items-center justify-between mt-12 pt-12 border-t border-gray-200 dark:border-gray-700">
+                <span class="text-sm font-medium">Share this article</span>
+                <div class="flex gap-2">
+                    <button
+                        class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4A5.26,5.26,0,0,0,9.82,6v1.5H7v3.85h2.82V21.5h4.66V11.33h3.34Z" />
+                        </svg>
+                    </button>
+                    <button
+                        class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M23.95,4.57a10,10,0,0,1-2.82.77,4.96,4.96,0,0,0,2.16-2.72a9.9,9.9,0,0,1-3.12,1.19,4.92,4.92,0,0,0-8.39,4.49A14,14,0,0,1,1.64,3.16,4.92,4.92,0,0,0,3.2,9.72,4.86,4.86,0,0,1,.96,9.11v.06A4.93,4.93,0,0,0,4.88,14a5,5,0,0,1-2.3.07,4.94,4.94,0,0,0,4.6,3.42,9.87,9.87,0,0,1-6.11,2.11A10.23,10.23,0,0,1,0,19.54a14,14,0,0,0,7.55,2.21,13.93,13.93,0,0,0,14-14c0-.21,0-.42-.02-.63A10,10,0,0,0,24,4.59Z" />
+                        </svg>
+                    </button>
+                    <button
+                        class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </article>
+
+        <!-- Related Articles -->
+        <section class="mt-16 pt-16 border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 max-w-3xl">
+                <h2 class="text-2xl font-bold mb-8">Related Articles</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Related Article -->
+                    <a href="#" class="group space-y-4">
+                        <div class="aspect-[4/3] rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/400x300" alt="Related Article"
+                                class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" />
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg group-hover:text-primary-500 transition-colors">
+                                Behind the Scenes: Proses Syuting Queen of Tears
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mt-2">
+                                Melihat lebih dekat proses pembuatan drama Queen of Tears yang penuh dengan momen
+                                menarik.
+                            </p>
+                        </div>
+                    </a>
+                    <!-- Repeat related articles -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 py-12 max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand Section -->
+                <div>
+                    <a href="/" class="flex items-center space-x-2 mb-4">
+                        <svg class="w-8 h-8 text-primary-500" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13v8l6-4z" />
+                        </svg>
+                        <span class="text-2xl font-bold text-primary-500 dark:text-white">DramaKu</span>
+                    </a>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        Nonton drama Korea subtitle Indonesia terlengkap dan terbaru.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                        Quick Links
+                    </h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="/drama-list" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Drama
+                                List</a>
+                        </li>
+                        <li>
+                            <a href="/ongoing"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-500">On-Going</a>
+                        </li>
+                        <li>
+                            <a href="/completed"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Completed</a>
+                        </li>
+                        <li>
+                            <a href="/schedule"
+                                class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Schedule</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                        Legal
+                    </h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="/privacy" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Privacy
+                                Policy</a>
+                        </li>
+                        <li>
+                            <a href="/terms" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Terms of
+                                Service</a>
+                        </li>
+                        <li>
+                            <a href="/dmca" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">DMCA</a>
+                        </li>
+                        <li>
+                            <a href="/contact" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Contact
+                                Us</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Social Links -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                        Follow Us
+                    </h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary-500" aria-label="Facebook">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4A5.26,5.26,0,0,0,9.82,6v1.5H7v3.85h2.82V21.5h4.66V11.33h3.34Z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary-500" aria-label="Twitter">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M23.95,4.57a10,10,0,0,1-2.82.77,4.96,4.96,0,0,0,2.16-2.72,9.9,9.9,0,0,1-3.12,1.19,4.92,4.92,0,0,0-8.39,4.49A14,14,0,0,1,1.64,3.16,4.92,4.92,0,0,0,3.2,9.72,4.86,4.86,0,0,1,.96,9.11v.06A4.93,4.93,0,0,0,4.88,14a5,5,0,0,1-2.3.07,4.94,4.94,0,0,0,4.6,3.42,9.87,9.87,0,0,1-6.11,2.11A10.23,10.23,0,0,1,0,19.54a14,14,0,0,0,7.55,2.21,13.93,13.93,0,0,0,14-14c0-.21,0-.42-.02-.63A10,10,0,0,0,24,4.59Z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary-500" aria-label="Instagram">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12,2.16c3.2,0,3.58,0,4.85.07,3.25.15,4.77,1.69,4.92,4.92.06,1.27.07,1.65.07,4.85s0,3.58-.07,4.85c-.15,3.23-1.66,4.77-4.92,4.92-1.27.06-1.65.07-4.85.07s-3.58,0-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s0-3.58.07-4.85c.15-3.23,1.66-4.77,4.92-4.92,1.27-.06,1.65-.07,4.85-.07M12,0C8.74,0,8.33.01,7.05.07c-4.27.2-6.78,2.71-6.98,6.98C0.01,8.33,0,8.74,0,12s.01,3.67.07,4.95c.2,4.27,2.71,6.78,6.98,6.98,1.28.06,1.69.07,4.95.07s3.67-.01,4.95-.07c4.27-.2,6.78-2.71,6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.27-2.71-6.78-6.98-6.98C15.67.01,15.26,0,12,0Z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
+                <p class="text-gray-600 dark:text-gray-400">
+                    &copy; 2024 DramaKu. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Scripts -->
+    <script src="../dist/js/main.js"></script>
+</body>
+
+</html>

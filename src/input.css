@@ -55,11 +55,19 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-purple-500 hover:bg-purple-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200;
+    @apply bg-primary-500 hover:bg-primary-600 text-white font-medium py-3 px-6 rounded-lg transition-colors;
   }
 
   .btn-secondary {
-    @apply bg-white/20 hover:bg-white/30 text-white font-medium px-6 py-3 rounded-lg backdrop-blur-sm transition duration-200;
+    @apply bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium py-3 px-6 rounded-lg transition-colors flex items-center gap-2 justify-center;
+  }
+
+  .btn-icon {
+    @apply p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
+  }
+
+  .info-pill {
+    @apply px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400;
   }
 
   .card {
@@ -129,7 +137,7 @@
 
   .genre-navbar {
     @apply relative border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md;
-    z-index: 100;
+    z-index: 60;
   }
 
   /* Breadcrumb styles */
@@ -146,7 +154,7 @@
   /* Layout & Navigation */
   .header-fixed {
     @apply fixed w-full bg-white/95 dark:bg-gray-800/95 shadow-sm;
-    z-index: 100;
+    z-index: 50;
   }
 
   .main-content {
@@ -176,6 +184,84 @@
 
   .breadcrumb-current {
     @apply text-gray-900 dark:text-white font-medium;
+  }
+
+  .genre-dropdown {
+    @apply relative;
+    z-index: 1000;
+  }
+
+  .genre-dropdown-menu {
+    @apply absolute left-0 w-64 mt-1
+           bg-white dark:bg-gray-800 
+           shadow-xl rounded-lg
+           border border-gray-200 dark:border-gray-700
+           transition-all duration-200 ease-out;
+    z-index: 9999;
+  }
+
+  .genre-item {
+    @apply flex items-center justify-between
+           px-3 py-2.5 
+           text-sm text-gray-700 dark:text-gray-300
+           hover:bg-gray-100 dark:hover:bg-gray-700
+           rounded-md transition-colors
+           cursor-pointer;
+  }
+
+  /* Navigation Components */
+  .nav-link {
+    @apply text-gray-700 dark:text-gray-200 
+           hover:text-primary-500 dark:hover:text-primary-400 
+           font-medium transition-colors;
+  }
+
+  .nav-icon-btn {
+    @apply p-2 text-gray-700 dark:text-gray-200 
+           hover:text-primary-500 dark:hover:text-primary-400 
+           hover:bg-gray-100 dark:hover:bg-gray-700 
+           rounded-full transition-all;
+  }
+
+  .mobile-nav-link {
+    @apply block px-4 py-2 
+           text-gray-700 dark:text-gray-200 
+           hover:bg-gray-100 dark:hover:bg-gray-700 
+           rounded-lg transition-colors;
+  }
+
+  /* Genre Dropdown */
+  .genre-item {
+    @apply flex items-center justify-between
+           px-3 py-2 
+           text-sm text-gray-700 dark:text-gray-300
+           hover:bg-gray-100 dark:hover:bg-gray-700
+           rounded-md transition-colors;
+  }
+
+  .genre-count {
+    @apply text-xs text-gray-500 dark:text-gray-400 font-medium;
+  }
+
+  /* Show dropdown on hover and focus */
+  .group:hover #genreDropdownMenu,
+  .group:focus-within #genreDropdownMenu {
+    @apply opacity-100 visible transform scale-100;
+  }
+
+  /* Tambahkan custom container style */
+  .container {
+    @apply mx-auto px-4 max-w-6xl; /* max-w-6xl = 1152px */
+  }
+
+  /* Untuk container yang lebih kecil */
+  .container-sm {
+    @apply mx-auto px-4 max-w-5xl; /* max-w-5xl = 1024px */
+  }
+
+  /* Untuk section yang membutuhkan lebar penuh */
+  .container-fluid {
+    @apply mx-auto px-4 w-full;
   }
 }
 
@@ -209,4 +295,223 @@
          hover:text-primary-500 dark:hover:text-primary-400
          transition-colors
          whitespace-nowrap;
+}
+
+/* Secondary Navigation Styles */
+.secondary-nav-link {
+  @apply flex items-center px-6 h-14
+         text-sm font-medium
+         text-gray-700 dark:text-gray-300
+         hover:text-primary-500 dark:hover:text-primary-400
+         hover:bg-gray-50 dark:hover:bg-gray-700/50
+         transition-colors;
+}
+
+.secondary-nav-pill {
+  @apply px-3.5 py-1.5
+         text-sm font-medium
+         text-gray-600 dark:text-gray-400
+         hover:text-primary-500 dark:hover:text-primary-400
+         hover:bg-gray-100 dark:hover:bg-gray-700/50
+         rounded-full transition-all
+         whitespace-nowrap;
+}
+
+.genre-item {
+  @apply flex items-center justify-between
+         px-4 py-2.5 
+         text-sm text-gray-700 dark:text-gray-300
+         hover:bg-gray-50 dark:hover:bg-gray-700
+         rounded-md transition-colors
+         cursor-pointer;
+}
+
+/* Update existing styles */
+.genre-dropdown-menu {
+  @apply absolute left-0 w-72 mt-1
+         bg-white dark:bg-gray-800 
+         shadow-xl rounded-lg
+         border border-gray-200 dark:border-gray-700
+         transition-all duration-200 ease-out;
+  z-index: 1000;
+}
+
+/* Hover effect untuk View All Genres link */
+.genre-dropdown-menu a.group:hover svg {
+  @apply translate-x-1;
+}
+
+/* Mobile Navigation Styles */
+.mobile-nav-pill {
+  @apply flex items-center space-x-1 
+         px-2.5 py-1.5  /* Reduced padding */
+         text-sm font-medium
+         text-gray-600 dark:text-gray-400
+         hover:text-primary-500 dark:hover:text-primary-400
+         hover:bg-gray-100 dark:hover:bg-gray-700/50
+         rounded-full transition-all;
+}
+
+.mobile-genre-item {
+  @apply flex items-center justify-between
+         px-3 py-2  /* Reduced padding */
+         text-sm text-gray-700 dark:text-gray-300
+         hover:bg-gray-50 dark:hover:bg-gray-700
+         rounded-md transition-colors
+         cursor-pointer;
+}
+
+/* Update existing mobile styles */
+@media (max-width: 768px) {
+  .header-fixed {
+    @apply border-b border-gray-200 dark:border-gray-700;
+  }
+
+  .genre-dropdown-menu {
+    @apply w-64 mx-2;  /* Adjusted width and margin */
+    left: 0;
+    transform: scale(0.95);
+  }
+
+  .genre-dropdown-menu.visible {
+    transform: scale(1);
+  }
+
+  /* Custom scrollbar hiding */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Update Navigation Styles */
+.nav-link {
+  @apply flex items-center space-x-2 px-3 h-14  /* Reduced padding */
+         text-sm font-medium
+         text-gray-700 dark:text-gray-200 
+         hover:text-primary-500 dark:hover:text-primary-400 
+         transition-colors;
+}
+
+.genre-item {
+  @apply flex items-center justify-between
+         px-4 py-3
+         text-sm text-gray-700 dark:text-gray-300
+         hover:bg-gray-50 dark:hover:bg-gray-700
+         rounded-md transition-colors
+         cursor-pointer;
+}
+
+.mobile-nav-pill {
+  @apply flex items-center space-x-1.5 
+         px-3 py-1.5
+         text-sm font-medium
+         text-gray-600 dark:text-gray-400
+         hover:text-primary-500 dark:hover:text-primary-400
+         hover:bg-gray-100 dark:hover:bg-gray-700/50
+         rounded-full transition-all;
+}
+
+/* Dropdown Menu Styles */
+.group:hover #genreDropdownMenu,
+.group:focus-within #genreDropdownMenu {
+  @apply opacity-100 visible transform scale-100;
+}
+
+/* Mobile Specific Styles */
+@media (max-width: 768px) {
+  .genre-dropdown-menu {
+    @apply w-screen max-w-sm mx-4;
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+  }
+
+  .genre-dropdown-menu.visible {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+/* Update responsive container */
+@media (max-width: 1280px) {
+  .container {
+    @apply max-w-5xl; /* 1024px pada layar lebih kecil */
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    @apply max-w-4xl; /* 896px pada tablet */
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    @apply max-w-full px-4; /* Full width dengan padding pada mobile */
+  }
+}
+
+/* Genre Dropdown Styles */
+.featured-genre-item {
+  @apply p-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 
+         transition-all duration-200 
+         border border-transparent hover:border-gray-200 dark:hover:border-gray-700;
+}
+
+.genre-item {
+  @apply flex items-center justify-between
+         px-4 py-2.5 
+         text-sm text-gray-700 dark:text-gray-300
+         bg-gray-50 dark:bg-gray-700/50
+         hover:bg-gray-100 dark:hover:bg-gray-600/50
+         rounded-lg transition-all duration-200
+         border border-transparent hover:border-gray-200 dark:hover:border-gray-600;
+}
+
+.mobile-genre-item {
+  @apply p-3 rounded-xl 
+         bg-gray-50 dark:bg-gray-700/50
+         hover:bg-gray-100 dark:hover:bg-gray-600/50 
+         transition-all duration-200
+         border border-transparent hover:border-gray-200 dark:hover:border-gray-600;
+}
+
+.genre-count {
+  @apply text-xs font-medium px-2 py-0.5 
+         rounded-full bg-gray-200/50 dark:bg-gray-600/50 
+         text-gray-600 dark:text-gray-400;
+}
+
+/* Dropdown Animation */
+.dropdown-enter {
+  @apply opacity-0 scale-95;
+}
+
+.dropdown-enter-active {
+  @apply opacity-100 scale-100;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+.dropdown-exit {
+  @apply opacity-100 scale-100;
+}
+
+.dropdown-exit-active {
+  @apply opacity-0 scale-95;
+  transition: opacity 150ms ease-in, transform 150ms ease-in;
+}
+
+/* Mobile Specific Styles */
+@media (max-width: 768px) {
+  .genre-dropdown-menu {
+    @apply mx-4 w-auto;
+    max-width: calc(100vw - 2rem);
+  }
+  
+  .mobile-genre-item {
+    @apply p-2.5;
+  }
 }
